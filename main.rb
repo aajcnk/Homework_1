@@ -1,11 +1,82 @@
+require 'pry'
+
+class Team
+
+  attr_reader :sms, :task_list, :all
+  def initialize(&block)
+    @all = []
+    @sms = {}
+    instance_eval &block
+  end
+
+  def priority(*list)
+    @list = list
+  end
+
+  def on_task(type, &block)
+    @sms[type] = block
+  end
+
+
+  def add_task(task)
+    dev = @all.
+    sort_by { |dev| [dev.task_list.size, @list.index(dev.type.to_s.insert(-1, 's').to_sym)] }.first
+    dev.task_list << task    
+    if @sms[dev.type].nil?
+      raise 'нет агрумента для блока'
+    else
+     @sms[dev.type].(dev, task)
+   end
+ end
+
+
+ def report
+  @all.sort_by{|i| [i.task_list.size, @list.index(i.type)]}.each do |dev|
+    puts "#{dev.name} (#{to_sumb(dev.type)}): #{dev.task_list.join(', ')}"
+  end
+
+
+
+  def make_developer(type, name)
+    type.new(name)
+  end
+
+  private  
+
+  def to_sumb(name)
+    name.to_s.chop.to_sym
+  end
+
+  def have_seniors(*names)
+    @seniors = names
+    @all.push(@seniors.
+      map!{|name| make_developer(SeniorDeveloper, name)}).flatten!
+  end
+
+  def have_developers(*names)
+    @developers = names
+    @all.push(@developers.
+      map!{|name| make_developer(Developer, name)}).flatten!
+  end
+
+  def have_juniors(*names)
+    @juniors = names
+    @all.push(@juniors.
+      map!{|name| make_developer(JuniorDeveloper, name)}).flatten!
+  end
+end
+
 class Developer
 
   MAX_TASKS = 10
 
+  attr_reader :task_list, :name, :type
+
   def initialize(name)
     @name = name
     @task_list = []
-  end 
+    @type = type
+  end
 
   def add_task(task)
     @task = task
@@ -47,11 +118,17 @@ class Developer
       'занят'
     end
   end
+
+  def type
+    :developer
+  end
 end
 
 class SeniorDeveloper < Developer
 
   MAX_TASKS = 15
+
+  # attr_reader :task_list
 
   def work!
     if @task_list.empty?
@@ -70,11 +147,17 @@ class SeniorDeveloper < Developer
       puts "Что-то лень"
     end
   end
+
+  def type
+    :senior
+  end
 end
 
 class JuniorDeveloper < Developer
 
   MAX_TASKS = 5
+
+  # attr_reader :task_list
 
   def add_task(task)
     @task = task
@@ -91,4 +174,11 @@ class JuniorDeveloper < Developer
     puts %Q{%s: пытаюсь делать задачу "%s". Всего в списке задач: %s}%
     [@name, @task_list.shift, @task_list.count]
   end
+
+  def type
+    :junior
+  end
 end
+
+binding.pry
+
