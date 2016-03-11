@@ -1,31 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Главная</title>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-    <%= csrf_meta_tags %>
-  </head>
-  <body>
-    <h1>Последние петиции</h1>
-      <div id="container">
-        <div id="petition_header">
-          <%= link_to "Все петиции", petitions_path(count: "all") %> <br />
-          <%= link_to "Создать петецию", new_petition_path %><br />
-          <% if current_user %>
-            Logget in as <%= current_user.email %>
-            <%= link_to "Выйти", logout_path %>
-          <% else %> 
-            <%= link_to "Войти", signup_path %> <br />
-            <%= link_to "Зарегистрироваться", login_path %>
-          <% end %>
-        </div>
-        
-        <% flash.each do |name, msg| %>
-          <%= content_tag :div, msg, id: "flash #{name}" %>
-        <% end %>
-      </div>
+<h2>Последние петиции</h2>
 
-    <%= yield %>
-  </body>
-</html>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Петиция</th>
+    <th>Автор</th>
+  </tr>
+  </thead>
+  <% @petitions.each do |petition| %>
+    <%= render 'petitions/petition', petition: petition %>
+  <% end %>
+</table>
