@@ -1,13 +1,9 @@
 class PetitionsController < ApplicationController
   before_action :authorize, only: [:new, :create]
-    
-  def index
-    @petition = Petition.all
-    @petition = @petition.where(user: current_user) if params[:my]
-  end
 
-  def new
-    @petition = current_user.petitions.new
+  def index
+    @petitions = Petition.all
+    @petitions = @petitions.where(user: current_user) if params[:my]
   end
 
   def show
@@ -15,13 +11,17 @@ class PetitionsController < ApplicationController
   end
 
   def create
-    petition = current_user.petitions.create(petition_params)
+    petition = current_user.petitions.create(permitted_params)
     redirect_to petition
   end
-  
+
+  def new
+    @petition = current_user.petitions.new
+  end
+
   private
 
-  def petition_params
-    params.require(:petition).permit(:title, :text, :id)
+  def permitted_params
+    params.require(:petition).permit(:id, :title, :description)
   end
 end

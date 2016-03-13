@@ -1,0 +1,17 @@
+<h1>Редактирование петиции</h1>
+
+<%= form_for @petition do |f| %>
+  <% if @petition.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% @petition.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% end %>
+
+<%= link_to 'Показать', @petition %> |
+<%= link_to 'Назад', petitions_path %>

@@ -1,4 +1,7 @@
 <tr>
   <td><%= link_to petition.title, petition_path(petition) %></td>
   <td><%= petition.user.name %></td>
+  <td><%= petition.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+  <td><%= link_to "Изменить", edit_petition_path(petition) %></td>
+  <td><%= link_to "Удалить", petition, method: :delete, data: { confirm: "Точно удалить?" } %></td>
 </tr>

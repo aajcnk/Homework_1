@@ -5,9 +5,11 @@
   <tr>
     <th>Петиция</th>
     <th>Автор</th>
+    <th>Дата создания</th>
+    <th>Действия</th>
   </tr>
   </thead>
-  <% @petition.each do |petition| %>
+  <% @petitions.each do |petition| %>
     <%= render 'petition', petition: petition %>
   <% end %>
 </table>
