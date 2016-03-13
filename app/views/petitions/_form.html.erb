@@ -1,12 +1,16 @@
-<%= form_for @petition do |f| %>
+<%= form_for(@petition) do |f| %>
   <% if @petition.errors.any? %>
-    <div class="error_messages">
-      <h2>Form is invalid</h2>
+    <div id="error_explanation">
+      <h2><%= pluralize(@petition.errors.count, "error") %> prohibited this petition from being saved:</h2>
+
       <ul>
-        <% @petition.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
+      <% @petition.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
       </ul>
     </div>
   <% end %>
+
+    <div class="actions"><%= f.submit "Редактировать петицию", class: 'btn btn-primary' %></div>
+
 <% end %>

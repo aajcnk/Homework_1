@@ -3,9 +3,7 @@
 one:
   user_id: 1
   petition_id: 1
-  value: 1
 
 two:
   user_id: 1
   petition_id: 1
-  value: 1

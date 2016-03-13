@@ -1,17 +1,34 @@
 <h1>Редактирование петиции</h1>
-
-<%= form_for @petition do |f| %>
+ 
+<%= form_for :petition, url: petition_path(@petition), method: :patch do |f| %>
+ 
   <% if @petition.errors.any? %>
-    <div class="error_messages">
-      <h2>Form is invalid</h2>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@petition.errors.count, "error") %> prohibited
+        this petition from being saved:
+      </h2>
       <ul>
-        <% @petition.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+        <% @petition.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
+ 
+  <p class="form-group">
+    <%= f.label :title, 'Название' %><br />
+    <%= f.text_field :title, class: 'form-control' %>
+  </p>
+ 
+  <p class="form-group">
+    <%= f.label :taxt, 'Описание' %><br />
+    <%= f.text_area :text, class: 'form-control' %>
+  </p>
+ 
+  <p class="actions">
+    <%= submit_tag 'Изменить', class: 'btn btn-success' %>
+  </p>
 <% end %>
-
-<%= link_to 'Показать', @petition %> |
+ 
 <%= link_to 'Назад', petitions_path %>

@@ -1,12 +1,13 @@
 <h2><%= params[:my] ? 'Мои' : 'Все' %> петиции</h2>
 
-<table class="table">
+<table class="table table-striped">
   <thead>
   <tr>
     <th>Петиция</th>
-    <th>Автор</th>
+    <th><%= params[:my] ? '' : 'Автор' %></th>
+    <th>Голоса</th>
     <th>Дата создания</th>
-    <th>Действия</th>
+    <th colspan="2" align="center"><%= params[:my] ? 'Действия' : '' %></th>
   </tr>
   </thead>
   <% @petitions.each do |petition| %>
