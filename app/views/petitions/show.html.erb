@@ -2,12 +2,23 @@
 
 <h3><%= @petition.title %></h3>
 
-<p><%= @petition.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+<p>
+  <%= @petition.created_at.strftime('%d/%m/%Y %H:%M')  %>
+</p>
 
-<p><%= @petition.text %></p>
-<p>Голосов: <%= @petition.votes.count %></p>
+<p>
+  <%= @petition.text %>
+</p>
 
+<p>
+  <b>Голосов:</b>
+  <%= @petition.votes.count %>
+</p>
 
-<%= button_to 'Голосовать', upvote_vote_path(@petition.id), method: :post %>
- 
-
+<p>
+  <% if @petition.voted_by?(current_user) %>
+    Вы уже проголосовали за данную петицию
+  <% else %>
+    <%= button_to('Поддержать', votes_path({ petition_id: @petition.id }) ) %>
+  <% end %>
+</p>

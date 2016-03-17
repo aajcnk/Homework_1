@@ -4,16 +4,13 @@ Rails.application.routes.draw do
   get 'signup', to: 'users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
-  match '/signout', to: 'sessions#destroy',     via: 'delete'
+  # match '/signout', to: 'sessions#destroy',     via: 'delete'
   
   resources :sessions
   resources :users
   resources :petitions
-  resources :votes do
-    member do
-      post 'upvote'
-    end
-  end
+  resources :votes, only: :create
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,9 +1,11 @@
 class PetitionsController < ApplicationController
-  before_action :authorize, only: [:new, :create]
 
   def index
     @petitions = Petition.all
-    @petitions = @petitions.where(user: current_user) if params[:my]
+    if params[:my]
+      @petitions = @petitions.where(user: current_user)
+      render 'my_index'
+    end
   end
 
   def new
@@ -37,22 +39,16 @@ class PetitionsController < ApplicationController
     end
   end
 
-  # def delete
-  #   @petition = Petition.find(params[:id])
-  #   @petition.destroy
-  #   # flash[:success] = "Петиция удалена."
-  #   redirect_to petitions_path
-  # end
-  def delete
-    petition[:user_id] = nil
-    flash[:success] = "Петиция удалена"
-    params[:my] = true
-    redirect_to petitions_path(my: true)
+  def destroy
+    petition = current_user.petitions.find(params[:id])
+    petition.destroy
+    redirect_to action: :index, notice: 'Петиция удалена'
   end
 
   private
 
   def permitted_params
-    params.require(:petition).permit(:id, :title, :text)
+    params.require(:petition).permit(:title, :text)
   end
 end
+
