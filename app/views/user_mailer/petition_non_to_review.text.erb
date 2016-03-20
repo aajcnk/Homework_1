@@ -1,0 +1,4 @@
+Здравствуйте, <%= @petition.user.name %>
+
+Ваша петиция <%= @petition.title %> собрала только <%= @petition.votes.count %> 
+голосов из необходимых <%= Petition::VOTES %>
